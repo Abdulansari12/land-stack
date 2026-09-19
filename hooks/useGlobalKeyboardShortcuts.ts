@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import type { StateDataSource } from "@/lib/schemaAdapter";
 import type { TranslationKey } from "@/lib/translations";
+import type { UserRole } from "@/lib/store";
 
 export interface UseGlobalKeyboardShortcutsProps {
   isShortcutsModalOpen: boolean;
@@ -19,7 +20,7 @@ export interface UseGlobalKeyboardShortcutsProps {
   setIsPresentationMode: (val: boolean | ((prev: boolean) => boolean)) => void;
   setIsCommandPaletteOpen: React.Dispatch<React.SetStateAction<boolean>>;
   toggleTheme: () => void;
-  setRole: (role: "citizen" | "officer" | ((prev: "citizen" | "officer") => "citizen" | "officer")) => void;
+  setRole: (role: UserRole | ((prev: UserRole) => UserRole)) => void;
   setViewMode: React.Dispatch<React.SetStateAction<"2D" | "3D">>;
   handleToggleHeatmap: () => void;
   handleResetDemo: () => void;
@@ -135,10 +136,10 @@ export function useGlobalKeyboardShortcuts({
         return;
       }
 
-      // Alt + R: Switch Role (Citizen <-> Officer)
+      // Alt + R: Switch Role (Citizen -> Officer -> Bank)
       if (e.altKey && e.key.toLowerCase() === "r") {
         e.preventDefault();
-        setRole((prev) => (prev === "citizen" ? "officer" : "citizen"));
+        setRole((prev) => (prev === "citizen" ? "officer" : prev === "officer" ? "bank" : "citizen"));
         return;
       }
 

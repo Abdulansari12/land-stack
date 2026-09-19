@@ -60,6 +60,9 @@ const CommandPalette = dynamic(() => import("@/components/CommandPalette"), {
 const EcosystemModal = dynamic(() => import("@/components/EcosystemModal"), {
   ssr: false,
 });
+const BankVerificationModal = dynamic(() => import("@/components/BankVerificationModal"), {
+  ssr: false,
+});
 const KeyboardShortcutsModal = dynamic(() => import("@/components/KeyboardShortcutsModal"), {
   ssr: false,
 });
@@ -86,6 +89,9 @@ export default function DashboardPage() {
     setApprovedConsentUlpins,
     isPresentationMode,
     setIsPresentationMode,
+    isBankModalOpen,
+    openBankModal,
+    closeBankModal,
     resetDemoState,
   } = useAppStore();
 
@@ -415,6 +421,7 @@ export default function DashboardPage() {
         onOpenTour={handleStartTour}
         onOpenEcosystem={() => setIsEcosystemModalOpen(true)}
         onOpenShortcuts={() => setIsShortcutsModalOpen(true)}
+        onOpenBankVerification={openBankModal}
         onSelectParcelByUlpin={handleSelectParcelByUlpin}
       />
 
@@ -545,6 +552,13 @@ export default function DashboardPage() {
       <KeyboardShortcutsModal
         isOpen={isShortcutsModalOpen}
         onClose={() => setIsShortcutsModalOpen(false)}
+      />
+
+      {/* Interstate Bank Verification Modal */}
+      <BankVerificationModal
+        isOpen={isBankModalOpen}
+        onClose={closeBankModal}
+        onNavigateToParcel={handleSelectParcelFromSearch}
       />
 
       {/* Extracted Floating Presentation Mode Exit Indicator Pill */}

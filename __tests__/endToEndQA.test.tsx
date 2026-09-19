@@ -70,11 +70,11 @@ describe("End-to-End Comprehensive QA Test Suite (14 Core Scenarios)", () => {
       );
 
       const searchInput = screen.getByPlaceholderText(/search/i);
-      // Search for Chandigarh owner Harpreet
-      fireEvent.change(searchInput, { target: { value: "Harpreet" } });
+      // Search for Chandigarh owner Gurpreet
+      fireEvent.change(searchInput, { target: { value: "Gurpreet" } });
       
       // Should find the Chandigarh parcel via cross-registry fallback
-      expect(screen.getByText(/Col\. Harpreet Singh/i)).toBeInTheDocument();
+      expect(screen.getByText(/Gurpreet Kaur Dhillon/i)).toBeInTheDocument();
       expect(screen.getByText("Chandigarh")).toBeInTheDocument();
     });
   });
@@ -82,7 +82,7 @@ describe("End-to-End Comprehensive QA Test Suite (14 Core Scenarios)", () => {
   // --------------------------------------------------------------------------
   // Scenario 2: Clicking every parcel on the map across UP, TN, and Chandigarh
   // --------------------------------------------------------------------------
-  describe("2. Map Data Parcels Integrity (All 11 Parcels across UP, TN, CH)", () => {
+  describe("2. Map Data Parcels Integrity (All 12 Parcels across UP, TN, CH)", () => {
     it("verifies all 5 Uttar Pradesh parcels have valid coordinates and ULPINs", () => {
       expect(dummyLandParcels.features).toHaveLength(5);
       dummyLandParcels.features.forEach((feature) => {
@@ -94,10 +94,10 @@ describe("End-to-End Comprehensive QA Test Suite (14 Core Scenarios)", () => {
       });
     });
 
-    it("verifies all 3 Tamil Nadu parcels normalize with valid coordinates and properties", () => {
-      expect(rawParcelsTamilNadu.features).toHaveLength(3);
+    it("verifies all 4 Tamil Nadu parcels normalize with valid coordinates and properties", () => {
+      expect(rawParcelsTamilNadu.features).toHaveLength(4);
       const tn = normalizeParcelFeatureCollection(rawParcelsTamilNadu, "Tamil Nadu");
-      expect(tn.features).toHaveLength(3);
+      expect(tn.features).toHaveLength(4);
       tn.features.forEach((feature) => {
         expect(feature.properties.sourceState).toBe("Tamil Nadu");
         expect(feature.properties.ulpin).toMatch(/^TN/);
@@ -185,7 +185,7 @@ describe("End-to-End Comprehensive QA Test Suite (14 Core Scenarios)", () => {
       expect(normalized.sourceState).toBe("Chandigarh");
     });
 
-    it("combines all states into 11 canonical parcels under Unified View", () => {
+    it("combines all states into 12 canonical parcels under Unified View", () => {
       const up = normalizeParcelFeatureCollection(dummyLandParcels, "Uttar Pradesh");
       const tn = normalizeParcelFeatureCollection(rawParcelsTamilNadu, "Tamil Nadu");
       const ch = normalizeParcelFeatureCollection(rawParcelsChandigarh, "Chandigarh");
@@ -194,7 +194,7 @@ describe("End-to-End Comprehensive QA Test Suite (14 Core Scenarios)", () => {
         features: [...up.features, ...tn.features, ...ch.features],
       };
 
-      expect(unified.features).toHaveLength(11);
+      expect(unified.features).toHaveLength(12);
     });
   });
 

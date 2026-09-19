@@ -22,7 +22,7 @@ import {
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import type { StateDataSource } from "@/lib/schemaAdapter";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, UserRole } from "@/lib/store";
 
 export interface SettingsKebabMenuProps {
   onResetDemo?: () => void;
@@ -32,8 +32,8 @@ export interface SettingsKebabMenuProps {
   onOpenShortcuts?: () => void;
   isPresentationMode?: boolean;
   onTogglePresentationMode?: () => void;
-  currentRole?: "citizen" | "officer";
-  onRoleChange?: (role: "citizen" | "officer") => void;
+  currentRole?: UserRole;
+  onRoleChange?: (role: UserRole) => void;
   currentDataSource?: StateDataSource;
   onDataSourceChange?: (source: StateDataSource) => void;
 }
@@ -384,6 +384,17 @@ export default function SettingsKebabMenu({
                     }`}
                   >
                     Officer
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRoleChange("bank")}
+                    className={`px-2 py-0.5 rounded transition ${
+                      activeRole === "bank"
+                        ? "bg-white dark:bg-zinc-900 text-emerald-600 dark:text-emerald-400 shadow-2xs font-bold"
+                        : "text-slate-500 dark:text-zinc-400"
+                    }`}
+                  >
+                    Bank
                   </button>
                 </div>
               </div>

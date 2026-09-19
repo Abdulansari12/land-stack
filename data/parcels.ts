@@ -351,6 +351,43 @@ export const rawParcelsTamilNadu: RawTamilNaduFeatureCollection = {
         ],
       },
     },
+    {
+      type: "Feature",
+      id: "TN-PARCEL-104",
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [80.0520, 13.0070],
+            [80.0550, 13.0075],
+            [80.0545, 13.0045],
+            [80.0515, 13.0040],
+            [80.0520, 13.0070],
+          ],
+        ],
+      },
+      properties: {
+        patta_no: "TN07H2910S", // 10-digit alphanumeric ULPIN
+        pattadar_name: "Col. Harpreet Singh Sodhi (Retd.)",
+        survey_subdivision: "Khasra No. 89/1-B",
+        classification: "Nanjai (Industrial Corridor Tech Logistics Hub)",
+        ec_status: "Nil Encumbrance Certificate (Sub-Registrar Sriperumbudur Doc #2024/3190)",
+        dispute_status: "Clear Patta - Digitally Signed",
+        extent_hectares: 1.25,
+        guideline_val_inr: 4800000,
+        tax_paid_status: "Paid (e-Challan #TN2024-81920)",
+        utility_feeders: [
+          "TANGEDCO 3-Phase Industrial Feeder",
+          "Palar River Water Main Pipeline",
+          "BSNL BharatNet OFC Cable",
+        ],
+        chainOfTitle: [
+          { date: "14 Nov 2022", ownerName: "Col. Harpreet Singh Sodhi (Retd.)", transactionType: "Sale", documentRef: "TN-REG/2022/9920" },
+          { date: "03 Aug 2010", ownerName: "M. Krishnaswamy Chettiar", transactionType: "Inheritance", documentRef: "PATTA/2010/440" },
+          { date: "19 Jan 1991", ownerName: "Sriperumbudur Agro Holdings", transactionType: "Sale", documentRef: "DOC/1991/1190" },
+        ],
+      },
+    },
   ],
 };
 

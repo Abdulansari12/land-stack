@@ -4,7 +4,7 @@ import type { StateDataSource } from "@/lib/schemaAdapter";
 import type { Language } from "@/lib/translations";
 import type { Theme } from "@/context/ThemeContext";
 
-export type UserRole = "citizen" | "officer";
+export type UserRole = "citizen" | "officer" | "bank";
 
 export interface CadastralNotification {
   id: string;
@@ -177,6 +177,11 @@ export interface AppStoreState {
   setIsPresentationMode: (val: boolean | ((prev: boolean) => boolean)) => void;
   togglePresentationMode: () => void;
 
+  isBankModalOpen: boolean;
+  setIsBankModalOpen: (val: boolean | ((prev: boolean) => boolean)) => void;
+  openBankModal: () => void;
+  closeBankModal: () => void;
+
   targetCoordinates: [number, number][] | null;
   setTargetCoordinates: (coords: [number, number][] | null) => void;
 
@@ -208,7 +213,12 @@ export const useAppStore = create<AppStoreState>((set, get) => ({
     })),
   toggleUserRole: () =>
     set((state) => ({
-      userRole: state.userRole === "citizen" ? "officer" : "citizen",
+      userRole:
+        state.userRole === "citizen"
+          ? "officer"
+          : state.userRole === "officer"
+          ? "bank"
+          : "citizen",
     })),
 
   // 3. Current Data Source
@@ -319,6 +329,16 @@ export const useAppStore = create<AppStoreState>((set, get) => ({
     set((state) => ({ isPresentationMode: !state.isPresentationMode }));
   },
 
+  isBankModalOpen: false,
+  setIsBankModalOpen: (val) => {
+    set((state) => ({
+      isBankModalOpen:
+        typeof val === "function" ? val(state.isBankModalOpen) : val,
+    }));
+  },
+  openBankModal: () => set({ isBankModalOpen: true }),
+  closeBankModal: () => set({ isBankModalOpen: false }),
+
   targetCoordinates: null,
   setTargetCoordinates: (coords) => set({ targetCoordinates: coords }),
 
@@ -348,6 +368,7 @@ export const useAppStore = create<AppStoreState>((set, get) => ({
       currentDataSource: "Tamil Nadu",
       isDrawerOpen: false,
       isPresentationMode: false,
+      isBankModalOpen: false,
       approvedConsentUlpins: [],
       notifications: INITIAL_NOTIFICATIONS,
       unreadCount: INITIAL_NOTIFICATIONS.filter((n) => !n.isRead).length,

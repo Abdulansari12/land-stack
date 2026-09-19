@@ -11,6 +11,7 @@ import {
   Terminal,
   Network,
   Globe,
+  Landmark,
   Sun,
   Moon,
   HelpCircle,
@@ -24,11 +25,11 @@ import ParcelSearchBar from "@/components/ParcelSearchBar";
 import NotificationBell from "@/components/NotificationBell";
 import SettingsKebabMenu from "@/components/SettingsKebabMenu";
 import { Button } from "@/components/ui";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, UserRole } from "@/lib/store";
 
 export interface HeaderProps {
-  role?: "citizen" | "officer";
-  onRoleChange?: (role: "citizen" | "officer") => void;
+  role?: UserRole;
+  onRoleChange?: (role: UserRole) => void;
   dataSource?: StateDataSource;
   onDataSourceChange?: (source: StateDataSource) => void;
   activeParcels: LandParcelFeatureCollection;
@@ -37,6 +38,7 @@ export interface HeaderProps {
   onOpenTour: () => void;
   onOpenEcosystem: () => void;
   onOpenShortcuts: () => void;
+  onOpenBankVerification?: () => void;
   onSelectParcelByUlpin: (ulpin: string) => void;
   isPresentationMode?: boolean;
   onTogglePresentationMode?: () => void;
@@ -54,6 +56,7 @@ export default function Header({
   onOpenTour,
   onOpenEcosystem,
   onOpenShortcuts,
+  onOpenBankVerification,
   onSelectParcelByUlpin,
   isPresentationMode,
   onTogglePresentationMode,
@@ -69,6 +72,7 @@ export default function Header({
   const storeIsPresentationMode = useAppStore((s) => s.isPresentationMode);
   const storeTogglePresentationMode = useAppStore((s) => s.togglePresentationMode);
   const storeResetDemoState = useAppStore((s) => s.resetDemoState);
+  const storeOpenBankModal = useAppStore((s) => s.openBankModal);
 
   const currentRole = role ?? storeRole;
   const handleRoleChange = onRoleChange ?? storeSetRole;
@@ -77,6 +81,7 @@ export default function Header({
   const currentIsPresentationMode = isPresentationMode ?? storeIsPresentationMode;
   const handleTogglePresentationMode = onTogglePresentationMode ?? storeTogglePresentationMode;
   const handleResetDemo = onResetDemo ?? storeResetDemoState;
+  const handleOpenBankModal = onOpenBankVerification ?? storeOpenBankModal;
 
   return (
     <header className="sticky top-0 z-30 w-full border-b border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md">
@@ -213,7 +218,33 @@ export default function Header({
               <Shield className="h-3.5 w-3.5" />
               <span>{t("roleOfficer")}</span>
             </button>
+
+            <button
+              type="button"
+              data-testid="role-bank-btn"
+              onClick={() => handleRoleChange("bank")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                currentRole === "bank"
+                  ? "bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm font-semibold"
+                  : "text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200"
+              }`}
+            >
+              <Landmark className="h-3.5 w-3.5" />
+              <span>Bank</span>
+            </button>
           </div>
+
+          {/* Bank Verification Modal Trigger Button */}
+          <button
+            type="button"
+            data-testid="bank-verification-header-btn"
+            onClick={handleOpenBankModal}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800/80 text-xs font-semibold transition-all shadow-xs cursor-pointer"
+            title="Launch Interstate Bank Verification & Collateral Report"
+          >
+            <Landmark className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+            <span className="hidden xl:inline">Bank Verification</span>
+          </button>
 
           {/* Officer Dashboard Link */}
           {currentRole === "officer" && (

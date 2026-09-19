@@ -13,6 +13,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { normalizeParcelFeatureCollection } from "@/lib/schemaAdapter";
 import dynamic from "next/dynamic";
 import { sanitizeSearchQuery } from "@/lib/sanitize";
+import type { UserRole } from "@/lib/store";
 
 const VoiceSearchButton = dynamic(() => import("@/components/VoiceSearchButton"), {
   ssr: false,
@@ -20,7 +21,7 @@ const VoiceSearchButton = dynamic(() => import("@/components/VoiceSearchButton")
 
 interface ParcelSearchBarProps {
   onSelectParcel: (parcelFeature: LandParcelFeature) => void;
-  role?: "citizen" | "officer";
+  role?: UserRole;
   parcels?: LandParcelFeatureCollection;
   onOpenCommandPalette?: () => void;
 }
