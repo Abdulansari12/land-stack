@@ -16,6 +16,7 @@ import {
   Moon,
   HelpCircle,
   Tv,
+  PlusCircle,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -256,6 +257,19 @@ export default function Header({
             >
               <BarChart3 className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
               <span className="hidden sm:inline">{t("officerDashboard")}</span>
+            </Link>
+          )}
+
+          {/* Officer-Only Onboard New State Admin Wizard Link */}
+          {currentRole === "officer" && (
+            <Link
+              href="/admin/onboard-state"
+              data-testid="onboard-state-nav-link"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800/80 text-xs font-semibold transition-all shadow-xs"
+              title="Onboard New State Schema Adapter (Admin)"
+            >
+              <PlusCircle className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+              <span className="hidden xl:inline">Onboard State</span>
             </Link>
           )}
 

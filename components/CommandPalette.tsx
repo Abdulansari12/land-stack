@@ -439,6 +439,27 @@ export default function CommandPalette({
               </Command.Item>
 
               <Command.Item
+                value="onboard new state admin wizard schema adapter scale national rollout karnataka maharashtra gujarat officer"
+                onSelect={() => handleNavigate("/admin/onboard-state")}
+                className="group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs cursor-pointer transition-colors text-slate-700 dark:text-zinc-300 data-[selected=true]:bg-purple-50 dark:data-[selected=true]:bg-purple-950/60 data-[selected=true]:text-purple-600 dark:data-[selected=true]:text-purple-400"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-7 w-7 rounded-lg bg-purple-50 dark:bg-purple-950/50 flex items-center justify-center text-purple-600 dark:text-purple-400 shrink-0">
+                    <Layers className="h-3.5 w-3.5" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-slate-900 dark:text-zinc-100 group-data-[selected=true]:text-purple-600 dark:group-data-[selected=true]:text-purple-400">
+                      Onboard New State Admin Wizard
+                    </span>
+                    <span className="text-[11px] text-slate-500 dark:text-zinc-400">
+                      Visual schema mapping engine to scale across all 28 states &amp; 8 UTs
+                    </span>
+                  </div>
+                </div>
+                <ArrowRight className="h-3.5 w-3.5 text-slate-400 group-data-[selected=true]:translate-x-0.5 transition-transform" />
+              </Command.Item>
+
+              <Command.Item
                 value="open bank verification interstate collateral request cersai borrower multi state loan tamil nadu chandigarh"
                 onSelect={() => {
                   onClose();

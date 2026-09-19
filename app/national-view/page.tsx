@@ -23,6 +23,7 @@ import {
   Sparkles,
   Sun,
   Moon,
+  PlusCircle,
 } from "lucide-react";
 import {
   pilotStatesData,
@@ -111,6 +112,17 @@ export default function NationalRolloutPage() {
 
           {/* Header Right Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Onboard New State Admin Wizard Button */}
+            <Link
+              href="/admin/onboard-state"
+              data-testid="onboard-new-state-btn"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800/80 transition shadow-xs cursor-pointer"
+              title="Open State Onboarding & Adapter Wizard"
+            >
+              <PlusCircle className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+              <span className="hidden sm:inline">Onboard State</span>
+            </Link>
+
             {/* Language Switcher (EN/HI) */}
             <div className="flex items-center bg-slate-100 dark:bg-zinc-800 p-0.5 rounded-xl border border-slate-200 dark:border-zinc-700 shrink-0">
               <button
