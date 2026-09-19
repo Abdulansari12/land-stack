@@ -23,6 +23,7 @@ import {
   Radio,
   Moon,
   Sun,
+  TrendingUp,
   Network,
 } from "lucide-react";
 import { APP_NAME } from "@/config";
@@ -358,6 +359,15 @@ export default function WelcomePage() {
             >
               <Globe className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
               <span>National Rollout Map</span>
+            </Link>
+
+            <Link
+              href="/impact"
+              data-testid="welcome-national-impact-btn"
+              className="flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-800 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white font-semibold text-sm border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer shadow-2xs"
+            >
+              <TrendingUp className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+              <span>National Economic Case</span>
             </Link>
           </div>
 

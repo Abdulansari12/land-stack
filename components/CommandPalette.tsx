@@ -28,6 +28,7 @@ import {
   Keyboard,
   Tv,
   Landmark,
+  TrendingUp,
 } from "lucide-react";
 import { LandParcelFeature } from "@/data/parcels";
 import { StateDataSource } from "@/lib/schemaAdapter";
@@ -453,6 +454,27 @@ export default function CommandPalette({
                     </span>
                     <span className="text-[11px] text-slate-500 dark:text-zinc-400">
                       Visual schema mapping engine to scale across all 28 states &amp; 8 UTs
+                    </span>
+                  </div>
+                </div>
+                <ArrowRight className="h-3.5 w-3.5 text-slate-400 group-data-[selected=true]:translate-x-0.5 transition-transform" />
+              </Command.Item>
+
+              <Command.Item
+                value="national impact economic case litigation savings 20 crore parcels simulation dpi"
+                onSelect={() => handleNavigate("/impact")}
+                className="group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs cursor-pointer transition-colors text-slate-700 dark:text-zinc-300 data-[selected=true]:bg-indigo-50 dark:data-[selected=true]:bg-indigo-950/60 data-[selected=true]:text-indigo-600 dark:data-[selected=true]:text-indigo-400"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-7 w-7 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+                    <TrendingUp className="h-3.5 w-3.5" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-slate-900 dark:text-zinc-100 group-data-[selected=true]:text-indigo-600 dark:group-data-[selected=true]:text-indigo-400">
+                      National Economic Impact &amp; Simulation Dashboard
+                    </span>
+                    <span className="text-[11px] text-slate-500 dark:text-zinc-400">
+                      ₹28,500 Cr annual litigation savings, 20+ Cr parcels, 68% mutation speedup
                     </span>
                   </div>
                 </div>

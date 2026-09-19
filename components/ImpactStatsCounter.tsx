@@ -1,12 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   Layers,
   ShieldCheck,
   Clock,
   Building2,
   TrendingDown,
+  TrendingUp,
+  ArrowRight,
   Sparkles,
   ChevronDown,
   ChevronUp,
@@ -247,39 +250,59 @@ export default function ImpactStatsCounter({
 
         {/* Collapsible Content */}
         {isExpanded && (
-          <div className="p-3 sm:p-4 grid grid-cols-2 md:grid-cols-4 gap-3 animate-in fade-in slide-in-from-top-1 duration-200">
-            {STATS.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <div
-                  key={stat.id}
-                  className={`p-3 rounded-xl border ${stat.color.borderColor} bg-slate-50/50 dark:bg-zinc-800/30 flex flex-col justify-between transition-all hover:shadow-xs group`}
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[11px] font-semibold text-slate-500 dark:text-zinc-400 line-clamp-1">
-                      {language === "hi" ? stat.labelHi : stat.labelEn}
-                    </span>
-                    <div className={`p-1.5 rounded-lg ${stat.color.iconBg} ${stat.color.iconColor}`}>
-                      <Icon className="h-3.5 w-3.5" />
+          <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-200">
+            <div className="p-3 sm:p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+              {STATS.map((stat) => {
+                const Icon = stat.icon;
+                return (
+                  <div
+                    key={stat.id}
+                    className={`p-3 rounded-xl border ${stat.color.borderColor} bg-slate-50/50 dark:bg-zinc-800/30 flex flex-col justify-between transition-all hover:shadow-xs group`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[11px] font-semibold text-slate-500 dark:text-zinc-400 line-clamp-1">
+                        {language === "hi" ? stat.labelHi : stat.labelEn}
+                      </span>
+                      <div className={`p-1.5 rounded-lg ${stat.color.iconBg} ${stat.color.iconColor}`}>
+                        <Icon className="h-3.5 w-3.5" />
+                      </div>
+                    </div>
+
+                    <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                      <SingleAnimatedCounter
+                        target={stat.target}
+                        suffix={stat.suffix}
+                        prefix={stat.prefix}
+                        formatNumber={stat.formatNumber}
+                        triggerKey={triggerKey}
+                      />
+                    </div>
+
+                    <div className="text-[10px] text-slate-500 dark:text-zinc-400 mt-1 line-clamp-1">
+                      {language === "hi" ? stat.descHi : stat.descEn}
                     </div>
                   </div>
+                );
+              })}
+            </div>
 
-                  <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
-                    <SingleAnimatedCounter
-                      target={stat.target}
-                      suffix={stat.suffix}
-                      prefix={stat.prefix}
-                      formatNumber={stat.formatNumber}
-                      triggerKey={triggerKey}
-                    />
-                  </div>
-
-                  <div className="text-[10px] text-slate-500 dark:text-zinc-400 mt-1 line-clamp-1">
-                    {language === "hi" ? stat.descHi : stat.descEn}
-                  </div>
-                </div>
-              );
-            })}
+            {/* National Economic Case Link Banner */}
+            <div className="mx-3 sm:mx-4 mb-3 p-2.5 rounded-xl bg-gradient-to-r from-indigo-50/80 to-purple-50/80 dark:from-indigo-950/40 dark:to-purple-950/40 border border-indigo-100 dark:border-indigo-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+              <div className="flex items-center gap-2 text-indigo-900 dark:text-indigo-300">
+                <TrendingUp className="h-4 w-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                <span>
+                  <strong>National Economic Case:</strong> Projected ₹28,500 Cr annual litigation savings &amp; 20+ Crore parcels across all 36 States &amp; UTs.
+                </span>
+              </div>
+              <Link
+                href="/impact"
+                data-testid="strip-view-economic-case-btn"
+                className="inline-flex items-center gap-1 font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 shrink-0 cursor-pointer"
+              >
+                <span>View Economic Dashboard</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
           </div>
         )}
       </div>
@@ -374,6 +397,26 @@ export default function ImpactStatsCounter({
             </div>
           );
         })}
+      </div>
+
+      {/* Bottom CTA to National Economic Case & Simulation Dashboard */}
+      <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-gradient-to-r from-indigo-50/90 to-purple-50/90 dark:from-indigo-950/40 dark:to-purple-950/40 border border-indigo-200/80 dark:border-indigo-900/60 text-xs shadow-xs">
+        <div className="flex items-center gap-2.5 text-indigo-900 dark:text-indigo-200">
+          <TrendingUp className="h-4 w-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
+          <span>
+            {language === "hi"
+              ? "राष्ट्रीय आर्थिक केस: 20+ करोड़ भू-खंड, 68% दाखिल-खारिज समय बचत, और ₹28,500 करोड़ वार्षिक न्यायिक बचत।"
+              : "National Economic Case: 20+ Crore parcels, 68% mutation time reduction, and ₹28,500 Crore annual litigation savings."}
+          </span>
+        </div>
+        <Link
+          href="/impact"
+          data-testid="welcome-view-economic-dashboard-btn"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition shrink-0 cursor-pointer"
+        >
+          <span>{language === "hi" ? "राष्ट्रीय डैशबोर्ड देखें" : "View National Impact Dashboard"}</span>
+          <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
       </div>
     </div>
   );

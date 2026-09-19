@@ -17,6 +17,7 @@ import {
   HelpCircle,
   Tv,
   PlusCircle,
+  TrendingUp,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -295,6 +296,19 @@ export default function Header({
             >
               <Globe className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
               <span className="hidden sm:inline">National View</span>
+            </Link>
+          )}
+
+          {/* National Economic Impact Dashboard Link Button - Hidden in Presentation Mode */}
+          {!currentIsPresentationMode && (
+            <Link
+              href="/impact"
+              data-testid="national-impact-nav-link"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-zinc-700 hover:border-indigo-300 dark:hover:border-indigo-800 text-xs font-semibold transition-all shadow-xs"
+              title="Inspect National Economic Case & DPI Impact Dashboard (20+ Cr Parcels, ₹28,500 Cr Saved)"
+            >
+              <TrendingUp className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+              <span className="hidden xl:inline">Impact</span>
             </Link>
           )}
 
