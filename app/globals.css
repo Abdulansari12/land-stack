@@ -1,0 +1,187 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+
+  /* Semantic Brand Design Tokens */
+  --brand-primary: #4f46e5;
+  --brand-primary-hover: #4338ca;
+  --brand-primary-active: #3730a3;
+  --brand-primary-light: #eef2ff;
+  --brand-primary-muted: #e0e7ff;
+  --brand-primary-dark: #312e81;
+  --brand-primary-border: #c7d2fe;
+
+  --brand-secondary: #9333ea;
+  --brand-secondary-light: #faf5ff;
+  --brand-secondary-border: #e9d5ff;
+
+  /* Semantic Status Tokens (Light Mode) */
+  --status-verified: #10b981;
+  --status-verified-hover: #059669;
+  --status-verified-text: #065f46;
+  --status-verified-bg: #d1fae5;
+  --status-verified-border: #6ee7b7;
+
+  --status-disputed: #ef4444;
+  --status-disputed-hover: #dc2626;
+  --status-disputed-text: #991b1b;
+  --status-disputed-bg: #fee2e2;
+  --status-disputed-border: #fca5a5;
+
+  --status-pending: #f59e0b;
+  --status-pending-hover: #d97706;
+  --status-pending-text: #92400e;
+  --status-pending-bg: #fef3c7;
+  --status-pending-border: #fcd34d;
+
+  --status-info: #3b82f6;
+  --status-info-text: #1e40af;
+  --status-info-bg: #dbeafe;
+  --status-info-border: #93c5fd;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+
+  /* Semantic Status Tokens (Dark Mode Overrides) */
+  --status-verified-text: #a7f3d0;
+  --status-verified-bg: rgba(6, 78, 59, 0.8);
+  --status-verified-border: #065f46;
+
+  --status-disputed-text: #fecaca;
+  --status-disputed-bg: rgba(127, 29, 29, 0.8);
+  --status-disputed-border: #991b1b;
+
+  --status-pending-text: #fde68a;
+  --status-pending-bg: rgba(120, 53, 15, 0.8);
+  --status-pending-border: #78350f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
+  --color-brand-primary-active: var(--brand-primary-active);
+  --color-brand-primary-light: var(--brand-primary-light);
+  --color-brand-primary-muted: var(--brand-primary-muted);
+  --color-brand-primary-dark: var(--brand-primary-dark);
+  --color-brand-primary-border: var(--brand-primary-border);
+
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-secondary-light: var(--brand-secondary-light);
+  --color-brand-secondary-border: var(--brand-secondary-border);
+
+  --color-status-verified: var(--status-verified);
+  --color-status-verified-hover: var(--status-verified-hover);
+  --color-status-verified-text: var(--status-verified-text);
+  --color-status-verified-bg: var(--status-verified-bg);
+  --color-status-verified-border: var(--status-verified-border);
+
+  --color-status-disputed: var(--status-disputed);
+  --color-status-disputed-hover: var(--status-disputed-hover);
+  --color-status-disputed-text: var(--status-disputed-text);
+  --color-status-disputed-bg: var(--status-disputed-bg);
+  --color-status-disputed-border: var(--status-disputed-border);
+
+  --color-status-pending: var(--status-pending);
+  --color-status-pending-hover: var(--status-pending-hover);
+  --color-status-pending-text: var(--status-pending-text);
+  --color-status-pending-bg: var(--status-pending-bg);
+  --color-status-pending-border: var(--status-pending-border);
+
+  --color-status-info: var(--status-info);
+  --color-status-info-text: var(--status-info-text);
+  --color-status-info-bg: var(--status-info-bg);
+  --color-status-info-border: var(--status-info-border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Leaflet Dark Mode Overrides */
+.dark .leaflet-container {
+  background-color: #09090b !important;
+}
+
+/* Transform OpenStreetMap tiles into a sleek dark canvas (No API key, No watermarks) */
+.dark .leaflet-tile {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+  transition: filter 0.3s ease;
+}
+
+.dark .leaflet-bar a {
+  background-color: #18181b !important;
+  color: #f4f4f5 !important;
+  border-bottom: 1px solid #27272a !important;
+}
+
+.dark .leaflet-bar a:hover {
+  background-color: #27272a !important;
+  color: #ffffff !important;
+}
+
+.dark .leaflet-bar a.leaflet-disabled {
+  background-color: #09090b !important;
+  color: #52525b !important;
+}
+
+.dark .leaflet-popup-content-wrapper,
+.dark .leaflet-popup-tip {
+  background-color: #18181b !important;
+  color: #f4f4f5 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid #27272a !important;
+}
+
+.dark .leaflet-popup-close-button {
+  color: #a1a1aa !important;
+}
+
+.dark .leaflet-popup-close-button:hover {
+  color: #f4f4f5 !important;
+}
+
+.dark .leaflet-control-attribution {
+  background-color: rgba(9, 9, 11, 0.75) !important;
+  color: #71717a !important;
+}
+
+.dark .leaflet-control-attribution a {
+  color: #a1a1aa !important;
+}
+
+/* Presentation / Projector Mode */
+.presentation-mode {
+  font-size: 1.0625rem;
+}
+
+.presentation-mode h1 {
+  font-size: 1.85rem !important;
+}
+
+.presentation-mode .max-w-7xl {
+  max-width: 100% !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+/* Auto-hide cursor on inactivity */
+body.hide-cursor,
+body.hide-cursor * {
+  cursor: none !important;
+}
+
