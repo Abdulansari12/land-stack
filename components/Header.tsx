@@ -10,6 +10,7 @@ import {
   BarChart3,
   Terminal,
   Network,
+  Globe,
   Sun,
   Moon,
   HelpCircle,
@@ -236,6 +237,19 @@ export default function Header({
             >
               <Terminal className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
               <span className="hidden sm:inline">{t("apiExplorer")}</span>
+            </Link>
+          )}
+
+          {/* National Phased Rollout View Link Button - Hidden in Presentation Mode */}
+          {!currentIsPresentationMode && (
+            <Link
+              href="/national-view"
+              data-testid="national-view-nav-link"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 text-slate-700 dark:text-zinc-300 hover:text-emerald-600 dark:hover:text-emerald-400 border border-slate-200 dark:border-zinc-700 hover:border-emerald-300 dark:hover:border-emerald-800 text-xs font-semibold transition-all shadow-xs"
+              title="Inspect India-Wide National Phased Rollout Map"
+            >
+              <Globe className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span className="hidden sm:inline">National View</span>
             </Link>
           )}
 

@@ -388,6 +388,27 @@ export default function CommandPalette({
               </Command.Item>
 
               <Command.Item
+                value="national view phased rollout india map states ut pilot"
+                onSelect={() => handleNavigate("/national-view")}
+                className="group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs cursor-pointer transition-colors text-slate-700 dark:text-zinc-300 data-[selected=true]:bg-emerald-50 dark:data-[selected=true]:bg-emerald-950/60 data-[selected=true]:text-emerald-600 dark:data-[selected=true]:text-emerald-400"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-7 w-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+                    <Globe className="h-3.5 w-3.5" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-slate-900 dark:text-zinc-100 group-data-[selected=true]:text-emerald-600 dark:group-data-[selected=true]:text-emerald-400">
+                      National Phased Rollout Map
+                    </span>
+                    <span className="text-[11px] text-slate-500 dark:text-zinc-400">
+                      Inspect all 36 States & UTs onboarding status
+                    </span>
+                  </div>
+                </div>
+                <ArrowRight className="h-3.5 w-3.5 text-slate-400 group-data-[selected=true]:translate-x-0.5 transition-transform" />
+              </Command.Item>
+
+              <Command.Item
                 value="start take tour guided walkthrough judge demo"
                 onSelect={handleTour}
                 className="group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs cursor-pointer transition-colors text-slate-700 dark:text-zinc-300 data-[selected=true]:bg-purple-50 dark:data-[selected=true]:bg-purple-950/60 data-[selected=true]:text-purple-600 dark:data-[selected=true]:text-purple-400"
