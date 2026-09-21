@@ -31,6 +31,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import ImpactStatsCounter from "@/components/ImpactStatsCounter";
 import EcosystemDiagram from "@/components/EcosystemDiagram";
+import { Skiper31 } from "@/components/ui/skiper-ui/skiper31";
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -515,6 +516,16 @@ export default function WelcomePage() {
           </div>
 
           <EcosystemDiagram />
+        </section>
+
+        {/* ========================================================================= */}
+        {/* SCROLL-DRIVEN PARALLAX TYPOGRAPHY & TECH STACK REVEAL (Skiper UI) */}
+        {/* ========================================================================= */}
+        <section className="mt-16 sm:mt-24">
+          <Skiper31
+            headlineText="LAND STACK DPI"
+            subheadingText="Interoperable with India's National Digital Stack"
+          />
         </section>
       </main>
 
