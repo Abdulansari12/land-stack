@@ -500,7 +500,9 @@ export default function DroneLiDARSimulatorModal({
           </div>
           <div className="hidden sm:block">
             <span className="text-slate-400">Pts: </span>
-            <span className="text-purple-400 font-bold">{pointsCollected.toLocaleString()}</span>
+            <span className="text-purple-400 font-bold" suppressHydrationWarning>
+              {pointsCollected.toLocaleString("en-US")}
+            </span>
           </div>
         </div>
       </div>

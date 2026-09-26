@@ -411,7 +411,7 @@ export default function DashboardPage() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 transition-all duration-300 ${
+      className={`min-h-screen flex flex-col bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 transition-all duration-300 w-full max-w-full overflow-x-hidden ${
         isPresentationMode ? "presentation-mode" : ""
       }`}
     >
@@ -431,7 +431,7 @@ export default function DashboardPage() {
 
       {/* Main Workspace Area */}
       <main
-        className={`flex-1 w-full mx-auto p-4 sm:p-6 flex flex-col gap-5 transition-all duration-300 ${
+        className={`flex-1 w-full mx-auto p-4 sm:p-6 flex flex-col gap-5 transition-all duration-300 min-w-0 ${
           isPresentationMode ? "max-w-full lg:px-8" : "max-w-7xl lg:p-8"
         }`}
       >

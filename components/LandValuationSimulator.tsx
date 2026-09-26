@@ -390,8 +390,8 @@ export default function LandValuationSimulator({
                 <span className="text-[10px] text-indigo-200 font-medium block">
                   Projected Municipal Tax
                 </span>
-                <span className="text-lg font-bold text-cyan-300 font-mono">
-                  ₹{projection.annualTaxINR.toLocaleString()}/yr
+                <span className="text-lg font-bold text-cyan-300 font-mono" suppressHydrationWarning>
+                  ₹{projection.annualTaxINR.toLocaleString("en-US")}/yr
                 </span>
                 <span className="text-[10px] text-slate-300 block mt-0.5">
                   Civic revenue collection
