@@ -1,5 +1,5 @@
 import React from "react";
-import { MousePointerClick, ChevronRight } from "lucide-react";
+import { MousePointerClick, ChevronRight, Landmark, Sparkles } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import type { LandParcelProperties } from "@/data/parcels";
 import { Button, Card } from "@/components/ui";
@@ -8,7 +8,7 @@ import { useAppStore } from "@/lib/store";
 export interface ParcelSidebarCardProps {
   selectedParcel?: LandParcelProperties | null;
   isDrawerOpen?: boolean;
-  role?: "citizen" | "officer";
+  role?: "citizen" | "officer" | "bank";
   approvedConsentUlpins?: string[];
   onOpenDrawer?: () => void;
   onClearSelection?: () => void;
@@ -29,6 +29,7 @@ export default function ParcelSidebarCard({
   const storeApprovedUlpins = useAppStore((s) => s.approvedConsentUlpins);
   const storeOpenDrawer = useAppStore((s) => s.openDrawer);
   const storeCloseDrawer = useAppStore((s) => s.closeDrawer);
+  const storeOpenBankModal = useAppStore((s) => s.openBankModal);
 
   const selectedParcel = propParcel !== undefined ? propParcel : storeParcel;
   const isDrawerOpen = propDrawerOpen !== undefined ? propDrawerOpen : storeIsOpen;
@@ -38,6 +39,35 @@ export default function ParcelSidebarCard({
   const onClearSelection = propClearSelection ?? storeCloseDrawer;
 
   if (!selectedParcel || !isDrawerOpen) {
+    if (role === "bank") {
+      return (
+        <div className="hidden lg:flex w-full lg:w-[380px] xl:w-[400px] flex-col shrink-0 animate-in fade-in duration-200">
+          <div
+            data-testid="parcel-drawer-placeholder"
+            className="h-full min-h-[420px] rounded-2xl border-2 border-dashed border-blue-200 dark:border-blue-900/60 bg-blue-50/40 dark:bg-blue-950/20 backdrop-blur-xs p-8 flex flex-col items-center justify-center text-center shadow-xs"
+          >
+            <div className="h-16 w-16 rounded-2xl bg-blue-100 dark:bg-blue-900/50 border border-blue-200 dark:border-blue-700/50 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4 shadow-sm">
+              <Landmark className="h-8 w-8" />
+            </div>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1.5">
+              Bank Underwriter Mode
+            </h3>
+            <p className="text-xs font-medium text-slate-600 dark:text-zinc-400 max-w-[280px] leading-relaxed">
+              Click any parcel on the map to verify clear title deed, encumbrance registry, and CERSAI lien status.
+            </p>
+            <button
+              type="button"
+              onClick={storeOpenBankModal}
+              className="mt-5 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2 cursor-pointer"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+              <span>Multi-State Borrower Search</span>
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="hidden lg:flex w-full lg:w-[380px] xl:w-[400px] flex-col shrink-0 animate-in fade-in duration-200">
         <div

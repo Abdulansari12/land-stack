@@ -25,6 +25,8 @@ import {
   Sun,
   TrendingUp,
   Network,
+  Landmark,
+  Upload,
 } from "lucide-react";
 import { APP_NAME } from "@/config";
 import { useLanguage } from "@/context/LanguageContext";
@@ -370,6 +372,24 @@ export default function WelcomePage() {
               <TrendingUp className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
               <span>National Economic Case</span>
             </Link>
+
+            <Link
+              href="/bank-verification"
+              data-testid="welcome-bank-verification-btn"
+              className="flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-800 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white font-semibold text-sm border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer shadow-2xs"
+            >
+              <Landmark className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <span>Bank Verification</span>
+            </Link>
+
+            <Link
+              href="/admin/onboard-state"
+              data-testid="welcome-onboard-state-btn"
+              className="flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-800 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white font-semibold text-sm border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer shadow-2xs"
+            >
+              <Upload className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+              <span>Onboard State</span>
+            </Link>
           </div>
 
           <div className="text-[11px] text-slate-500 dark:text-slate-500 flex items-center gap-2 font-mono pt-1">
@@ -408,6 +428,16 @@ export default function WelcomePage() {
             </div>
           </div>
         </div>
+
+        {/* ========================================================================= */}
+        {/* SCROLL-DRIVEN PARALLAX TYPOGRAPHY & TECH STACK REVEAL (Skiper UI) */}
+        {/* ========================================================================= */}
+        <section className="mt-14 sm:mt-20">
+          <Skiper31
+            headlineText="LAND STACK DPI"
+            subheadingText="Interoperable with India's National Digital Stack"
+          />
+        </section>
 
         {/* ========================================================================= */}
         {/* CORE CAPABILITY CARDS (Bento Grid) */}
@@ -516,16 +546,6 @@ export default function WelcomePage() {
           </div>
 
           <EcosystemDiagram />
-        </section>
-
-        {/* ========================================================================= */}
-        {/* SCROLL-DRIVEN PARALLAX TYPOGRAPHY & TECH STACK REVEAL (Skiper UI) */}
-        {/* ========================================================================= */}
-        <section className="mt-16 sm:mt-24">
-          <Skiper31
-            headlineText="LAND STACK DPI"
-            subheadingText="Interoperable with India's National Digital Stack"
-          />
         </section>
       </main>
 

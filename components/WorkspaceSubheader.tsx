@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui";
 import { useAppStore } from "@/lib/store";
 
 export interface WorkspaceSubheaderProps {
-  role?: "citizen" | "officer";
+  role?: "citizen" | "officer" | "bank";
   dataSource?: string;
   clearCount: number;
   disputedCount: number;
@@ -39,11 +39,19 @@ export default function WorkspaceSubheader({
           </span>
           <ChevronRight className="h-3 w-3" />
           <span className="capitalize">
-            {activeRole === "citizen" ? t("citizenView") : t("officerView")}
+            {activeRole === "citizen"
+              ? t("citizenView")
+              : activeRole === "bank"
+              ? "Bank Underwriter View"
+              : t("officerView")}
           </span>
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          {activeRole === "citizen" ? t("pageTitleCitizen") : t("pageTitleOfficer")}
+          {activeRole === "citizen"
+            ? t("pageTitleCitizen")
+            : activeRole === "bank"
+            ? "Bank Mortgage Underwriting & Collateral Search"
+            : t("pageTitleOfficer")}
         </h1>
       </div>
 

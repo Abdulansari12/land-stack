@@ -39,13 +39,13 @@ export const CharacterV1 = ({
 
   const x = useTransform(
     scrollYProgress,
-    [0, 0.5],
-    [distanceFromCenter * 50, 0]
+    [0, 0.45, 0.55, 1],
+    [distanceFromCenter * 50, 0, 0, 0]
   );
   const rotateX = useTransform(
     scrollYProgress,
-    [0, 0.5],
-    [distanceFromCenter * 50, 0]
+    [0, 0.45, 0.55, 1],
+    [distanceFromCenter * 35, 0, 0, 0]
   );
 
   return (
@@ -100,14 +100,14 @@ export const CharacterV2 = ({
 
   const x = useTransform(
     scrollYProgress,
-    [0, 0.5],
-    [distanceFromCenter * 50, 0]
+    [0, 0.45, 0.55, 1],
+    [distanceFromCenter * 50, 0, 0, 0]
   );
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.75, 1]);
+  const scale = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [0.8, 1, 1, 1]);
   const y = useTransform(
     scrollYProgress,
-    [0, 0.5],
-    [Math.abs(distanceFromCenter) * 40, 0]
+    [0, 0.45, 0.55, 1],
+    [Math.abs(distanceFromCenter) * 30, 0, 0, 0]
   );
 
   if (typeof item === "string") {
@@ -164,20 +164,20 @@ export const CharacterV3 = ({
 
   const x = useTransform(
     scrollYProgress,
-    [0, 0.5],
-    [distanceFromCenter * 75, 0]
+    [0, 0.45, 0.55, 1],
+    [distanceFromCenter * 75, 0, 0, 0]
   );
   const rotate = useTransform(
     scrollYProgress,
-    [0, 0.5],
-    [distanceFromCenter * 35, 0]
+    [0, 0.45, 0.55, 1],
+    [distanceFromCenter * 35, 0, 0, 0]
   );
   const y = useTransform(
     scrollYProgress,
-    [0, 0.5],
-    [-Math.abs(distanceFromCenter) * 20, 0]
+    [0, 0.45, 0.55, 1],
+    [-Math.abs(distanceFromCenter) * 20, 0, 0, 0]
   );
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.75, 1]);
+  const scale = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [0.75, 1, 1, 1]);
 
   if (typeof item === "string") {
     return (

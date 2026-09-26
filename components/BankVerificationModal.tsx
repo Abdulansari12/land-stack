@@ -38,18 +38,20 @@ export interface BankVerificationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onNavigateToParcel?: (parcel: LandParcelFeature) => void;
+  inline?: boolean;
 }
 
 export default function BankVerificationModal({
   isOpen,
   onClose,
   onNavigateToParcel,
+  inline = false,
 }: BankVerificationModalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Focus trap for WCAG accessibility
   useFocusTrap({
-    isOpen,
+    isOpen: isOpen && !inline,
     containerRef,
     onClose,
   });
@@ -176,60 +178,68 @@ export default function BankVerificationModal({
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div
-      data-testid="bank-verification-overlay"
-      className="fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+      ref={containerRef}
+      role={inline ? "region" : "dialog"}
+      aria-modal={inline ? undefined : "true"}
+      aria-labelledby="bank-verification-title"
+      className={
+        inline
+          ? "relative w-full max-w-5xl bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-slate-200 dark:border-zinc-800 flex flex-col overflow-hidden"
+          : "relative w-full max-w-4xl max-h-[92vh] bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-zinc-800 flex flex-col overflow-hidden animate-in zoom-in-95 duration-150"
+      }
     >
-      <div
-        ref={containerRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="bank-verification-title"
-        className="relative w-full max-w-4xl max-h-[92vh] bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-zinc-800 flex flex-col overflow-hidden animate-in zoom-in-95 duration-150"
-      >
-        {/* ========================================================================= */}
-        {/* BANK HEADER BAR */}
-        {/* ========================================================================= */}
-        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-4 sm:p-5 text-white flex items-start justify-between gap-4 shrink-0 border-b border-indigo-900/50">
-          <div className="flex items-start gap-3.5">
-            <div className="h-11 w-11 rounded-xl bg-indigo-600/30 border border-indigo-400/30 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
-              <Landmark className="h-6 w-6" />
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2 mb-1">
-                <span className="px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 text-[10px] font-mono font-bold uppercase tracking-wide border border-amber-400/30">
-                  Bank Mortgage Underwriting Mode
-                </span>
-                <span className="px-2 py-0.5 rounded bg-white/10 text-slate-300 text-[10px] font-medium">
-                  DPDP Act 2023 § 7(b) Banking Due Diligence
-                </span>
-              </div>
-              <h2
-                id="bank-verification-title"
-                className="text-lg sm:text-xl font-black tracking-tight flex items-center gap-2"
-              >
-                <span>Interstate Collateral Verification Portal</span>
-              </h2>
-              <p className="text-xs text-slate-300 mt-0.5">
-                Federated simultaneous search across Tamil Nadu Patta/Chitta & Chandigarh UT Estate Office
-              </p>
-            </div>
+      {/* ========================================================================= */}
+      {/* BANK HEADER BAR */}
+      {/* ========================================================================= */}
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-4 sm:p-5 text-white flex items-start justify-between gap-4 shrink-0 border-b border-indigo-900/50">
+        <div className="flex items-start gap-3.5">
+          <div className="h-11 w-11 rounded-xl bg-indigo-600/30 border border-indigo-400/30 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
+            <Landmark className="h-6 w-6" />
           </div>
-
-          <button
-            type="button"
-            data-testid="bank-modal-close-btn"
-            onClick={onClose}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
-            aria-label="Close bank verification portal"
-          >
-            <X className="h-5 w-5" />
-          </button>
+          <div>
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              <span className="px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 text-[10px] font-mono font-bold uppercase tracking-wide border border-amber-400/30">
+                Bank Mortgage Underwriting Mode
+              </span>
+              <span className="px-2 py-0.5 rounded bg-white/10 text-slate-300 text-[10px] font-medium">
+                DPDP Act 2023 § 7(b) Banking Due Diligence
+              </span>
+            </div>
+            <h2
+              id="bank-verification-title"
+              className="text-lg sm:text-xl font-black tracking-tight flex items-center gap-2"
+            >
+              <span>Interstate Collateral Verification Portal</span>
+            </h2>
+            <p className="text-xs text-slate-300 mt-0.5">
+              Federated simultaneous search across Tamil Nadu Patta/Chitta & Chandigarh UT Estate Office
+            </p>
+          </div>
         </div>
+
+        <button
+          type="button"
+          data-testid="bank-modal-close-btn"
+          onClick={onClose}
+          className={
+            inline
+              ? "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-semibold transition cursor-pointer shrink-0"
+              : "p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer shrink-0"
+          }
+          aria-label="Close bank verification portal"
+        >
+          {inline ? (
+            <>
+              <ArrowRight className="h-4 w-4 rotate-180" />
+              <span>Return to Map</span>
+            </>
+          ) : (
+            <X className="h-5 w-5" />
+          )}
+        </button>
+      </div>
 
         {/* ========================================================================= */}
         {/* BORROWER SEARCH & TELEMETRY TOOLBAR */}
@@ -650,8 +660,27 @@ export default function BankVerificationModal({
               </button>
             )}
           </div>
-        </div>
       </div>
+    </div>
+  );
+
+  if (inline) {
+    return (
+      <div data-testid="bank-verification-inline-container" className="w-full flex justify-center py-2 sm:py-4">
+        {modalContent}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      data-testid="bank-verification-overlay"
+      className="fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      {modalContent}
     </div>
   );
 }
