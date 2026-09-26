@@ -63,6 +63,9 @@ const EcosystemModal = dynamic(() => import("@/components/EcosystemModal"), {
 const BankVerificationModal = dynamic(() => import("@/components/BankVerificationModal"), {
   ssr: false,
 });
+const DroneLiDARSimulatorModal = dynamic(() => import("@/components/DroneLiDARSimulatorModal"), {
+  ssr: false,
+});
 const KeyboardShortcutsModal = dynamic(() => import("@/components/KeyboardShortcutsModal"), {
   ssr: false,
 });
@@ -108,6 +111,7 @@ export default function DashboardPage() {
   const [activeNLFilter, setActiveNLFilter] = useState<NLQueryResult | null>(null);
   const [isEcosystemModalOpen, setIsEcosystemModalOpen] = useState<boolean>(false);
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState<boolean>(false);
+  const [isDroneModalOpen, setIsDroneModalOpen] = useState<boolean>(false);
 
   // Normalized parcels based on selected state data source
   const activeParcels = useMemo<LandParcelFeatureCollection>(() => {
@@ -469,6 +473,7 @@ export default function DashboardPage() {
               onToggleHeatmap={handleToggleHeatmap}
               heatmapMode={heatmapMode}
               onHeatmapModeChange={setHeatmapMode}
+              onLaunchDroneSurvey={() => setIsDroneModalOpen(true)}
             />
 
             {viewMode === "2D" ? (
@@ -559,6 +564,13 @@ export default function DashboardPage() {
         isOpen={isBankModalOpen}
         onClose={closeBankModal}
         onNavigateToParcel={handleSelectParcelFromSearch}
+      />
+
+      {/* SVAMITVA 3D Drone LiDAR Autonomous Survey Modal */}
+      <DroneLiDARSimulatorModal
+        isOpen={isDroneModalOpen}
+        onClose={() => setIsDroneModalOpen(false)}
+        parcel={selectedParcel}
       />
 
       {/* Extracted Floating Presentation Mode Exit Indicator Pill */}

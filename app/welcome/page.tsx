@@ -27,6 +27,8 @@ import {
   Network,
   Landmark,
   Upload,
+  Radar,
+  Calculator,
 } from "lucide-react";
 import { APP_NAME } from "@/config";
 import { useLanguage } from "@/context/LanguageContext";
@@ -389,6 +391,24 @@ export default function WelcomePage() {
             >
               <Upload className="h-4 w-4 text-amber-600 dark:text-amber-400" />
               <span>Onboard State</span>
+            </Link>
+
+            <Link
+              href="/drone-survey"
+              data-testid="welcome-drone-survey-btn"
+              className="flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-800 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white font-semibold text-sm border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer shadow-2xs"
+            >
+              <Radar className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
+              <span>Drone 3D Survey</span>
+            </Link>
+
+            <Link
+              href="/valuation-simulator"
+              data-testid="welcome-valuation-simulator-btn"
+              className="flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-100 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-800 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white font-semibold text-sm border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer shadow-2xs"
+            >
+              <TrendingUp className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+              <span>Valuation AI</span>
             </Link>
           </div>
 

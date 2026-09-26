@@ -312,6 +312,19 @@ export default function Header({
             </Link>
           )}
 
+          {/* AI Land Valuation Simulator Link */}
+          {!currentIsPresentationMode && (
+            <Link
+              href="/valuation-simulator"
+              data-testid="valuation-simulator-nav-link"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800/80 text-xs font-semibold transition-all shadow-xs"
+              title="5-10 Year AI Land Valuation & Infrastructure Growth Simulator"
+            >
+              <TrendingUp className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
+              <span className="hidden xl:inline">Valuation AI</span>
+            </Link>
+          )}
+
           {/* Institutional Ecosystem View Trigger Button */}
           <Button
             variant="secondary"

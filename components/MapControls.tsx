@@ -1,5 +1,5 @@
 import React from "react";
-import { Layers, Box, Flame, ChevronDown } from "lucide-react";
+import { Layers, Box, Flame, ChevronDown, Radar } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export interface MapControlsProps {
@@ -9,6 +9,7 @@ export interface MapControlsProps {
   onToggleHeatmap: () => void;
   heatmapMode: "disputes" | "transactions";
   onHeatmapModeChange: (mode: "disputes" | "transactions") => void;
+  onLaunchDroneSurvey?: () => void;
 }
 
 export default function MapControls({
@@ -18,6 +19,7 @@ export default function MapControls({
   onToggleHeatmap,
   heatmapMode,
   onHeatmapModeChange,
+  onLaunchDroneSurvey,
 }: MapControlsProps) {
   const { t } = useLanguage();
 
@@ -76,6 +78,20 @@ export default function MapControls({
           />
           <span>{t("heatmapToggle") || "Heatmap"}</span>
         </button>
+
+        {/* 3D Drone LiDAR Survey Button */}
+        {onLaunchDroneSurvey && (
+          <button
+            type="button"
+            data-testid="toggle-drone-survey-btn"
+            onClick={onLaunchDroneSurvey}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-cyan-700 hover:from-cyan-500 hover:to-teal-500 text-white text-xs font-bold transition-all shadow-md cursor-pointer border border-cyan-400/30"
+            title="Launch SVAMITVA 3D Drone LiDAR Autonomous Survey"
+          >
+            <Radar className="h-3.5 w-3.5 animate-spin text-cyan-200" />
+            <span className="hidden sm:inline">Drone 3D</span>
+          </button>
+        )}
 
         {/* 2D / 3D View Toggle Floating Pill */}
         <div className="flex items-center bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md p-1 rounded-xl border border-slate-200/90 dark:border-zinc-700/90 shadow-md">
