@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -26,7 +26,6 @@ import type { LandParcelFeature, LandParcelFeatureCollection } from "@/data/parc
 import ParcelSearchBar from "@/components/ParcelSearchBar";
 import NotificationBell from "@/components/NotificationBell";
 import SettingsKebabMenu from "@/components/SettingsKebabMenu";
-import PortalsDropdown from "@/components/PortalsDropdown";
 import { Button } from "@/components/ui";
 import { useAppStore, UserRole } from "@/lib/store";
 
@@ -86,20 +85,43 @@ export default function Header({
   const handleResetDemo = onResetDemo ?? storeResetDemoState;
   const handleOpenBankModal = onOpenBankVerification ?? storeOpenBankModal;
 
+  const [isPortalsOpen, setIsPortalsOpen] = useState(false);
+  const portalsRef = useRef<HTMLDivElement>(null);
+
+  // Close portals dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (portalsRef.current && !portalsRef.current.contains(event.target as Node)) {
+        setIsPortalsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape" && isPortalsOpen) {
+        setIsPortalsOpen(false);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isPortalsOpen]);
+
   return (
-    <header className="sticky top-0 z-30 w-full max-w-full border-b border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md">
+    <header className="sticky top-0 z-30 w-full border-b border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md overflow-x-clip">
       <div
-        className={`mx-auto h-16 flex items-center justify-between gap-2 sm:gap-3 transition-all duration-300 w-full ${
-          currentIsPresentationMode ? "px-4 sm:px-6" : "max-w-7xl px-3 sm:px-6 lg:px-8"
-        }`}
+        className={`w-full max-w-[1920px] mx-auto h-16 flex items-center justify-between gap-2 sm:gap-3 px-2 sm:px-4 lg:px-6 transition-all duration-300`}
       >
         {/* Brand Logo & Name */}
         <Link
           href="/welcome"
           title="Open Land Stack Welcome Landing Page"
-          className="flex items-center gap-2 sm:gap-3 shrink-0 hover:opacity-90 transition group cursor-pointer"
+          className="flex items-center gap-3 shrink-0 hover:opacity-90 transition group cursor-pointer"
         >
-          <div className="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm shadow-indigo-200 dark:shadow-none group-hover:scale-105 transition-transform shrink-0">
+          <div className="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm shadow-indigo-200 dark:shadow-none group-hover:scale-105 transition-transform">
             <LayoutDashboard className="h-5 w-5" />
           </div>
           <div className="hidden md:block">
@@ -113,7 +135,7 @@ export default function Header({
         </Link>
 
         {/* Cross-State Data Source Dropdown */}
-        <div className="hidden sm:flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
           <div className="relative flex items-center">
             <Database className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400 absolute left-2.5 pointer-events-none" />
             <select
@@ -132,7 +154,7 @@ export default function Header({
         </div>
 
         {/* Functional Parcel Search Bar */}
-        <div data-tour="search-bar" className="flex items-center flex-1 max-w-[160px] sm:max-w-xs md:max-w-sm lg:max-w-md mx-1 sm:mx-2 min-w-0">
+        <div data-tour="search-bar" className="flex items-center md:flex-1 md:max-w-sm lg:max-w-md mx-1 sm:mx-2">
           <ParcelSearchBar
             role={currentRole}
             parcels={activeParcels}
@@ -142,7 +164,7 @@ export default function Header({
         </div>
 
         {/* Header Right Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* 'Take a Tour' Button for Hackathon Judges */}
           <Button
             variant="gradient"
@@ -151,7 +173,6 @@ export default function Header({
             onClick={onOpenTour}
             leftIcon={<Sparkles className="h-3.5 w-3.5 text-amber-300 animate-spin" />}
             title="Take a 60-Second Guided Tour"
-            className="hidden sm:inline-flex"
           >
             {t("takeTour") || "Take a Tour"}
           </Button>
@@ -165,7 +186,7 @@ export default function Header({
               type="button"
               data-testid="lang-btn-en"
               onClick={() => setLanguage("en")}
-              className={`flex items-center gap-1 px-2 py-1 text-xs rounded-lg transition-all cursor-pointer ${
+              className={`flex items-center gap-1 px-2.5 py-1 text-xs rounded-lg transition-all cursor-pointer ${
                 language === "en"
                   ? "bg-white dark:bg-zinc-900 text-indigo-600 dark:text-indigo-400 font-extrabold shadow-xs"
                   : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200 font-medium"
@@ -180,7 +201,7 @@ export default function Header({
               type="button"
               data-testid="lang-btn-hi"
               onClick={() => setLanguage("hi")}
-              className={`flex items-center gap-1 px-2 py-1 text-xs rounded-lg transition-all cursor-pointer ${
+              className={`flex items-center gap-1 px-2.5 py-1 text-xs rounded-lg transition-all cursor-pointer ${
                 language === "hi"
                   ? "bg-white dark:bg-zinc-900 text-indigo-600 dark:text-indigo-400 font-extrabold shadow-xs"
                   : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200 font-medium"
@@ -195,158 +216,218 @@ export default function Header({
           {/* Citizen / Officer Role Toggle */}
           <div
             data-tour="role-toggle"
-            className="flex items-center bg-slate-100 dark:bg-zinc-800 p-0.5 sm:p-1 rounded-xl border border-slate-200 dark:border-zinc-700 shrink-0"
+            className="flex items-center bg-slate-100 dark:bg-zinc-800 p-1 rounded-xl border border-slate-200 dark:border-zinc-700"
           >
             <button
               type="button"
               onClick={() => handleRoleChange("citizen")}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 currentRole === "citizen"
                   ? "bg-white dark:bg-zinc-900 text-indigo-600 dark:text-indigo-400 shadow-sm font-semibold"
                   : "text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200"
               }`}
             >
               <User className="h-3.5 w-3.5" />
-              <span className="hidden xs:inline sm:inline">{t("roleCitizen")}</span>
+              <span>{t("roleCitizen")}</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleRoleChange("officer")}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 currentRole === "officer"
                   ? "bg-white dark:bg-zinc-900 text-amber-600 dark:text-amber-400 shadow-sm font-semibold"
                   : "text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200"
               }`}
             >
               <Shield className="h-3.5 w-3.5" />
-              <span className="hidden xs:inline sm:inline">{t("roleOfficer")}</span>
+              <span>{t("roleOfficer")}</span>
             </button>
 
             <button
               type="button"
               data-testid="role-bank-btn"
               onClick={() => handleRoleChange("bank")}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 currentRole === "bank"
                   ? "bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-sm font-semibold"
                   : "text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-200"
               }`}
             >
               <Landmark className="h-3.5 w-3.5" />
-              <span className="hidden xs:inline sm:inline">Bank</span>
+              <span>Bank</span>
             </button>
           </div>
 
-          {/* Consolidated Ecosystem Portals Dropdown (Saves ~870px of header width) */}
-          <PortalsDropdown
-            currentRole={currentRole}
-            onOpenBankModal={handleOpenBankModal}
-            onOpenEcosystem={onOpenEcosystem}
-          />
-
-          {/* Ultra-Wide Direct Quick-Links (visible on 2xl: 1536px+, hidden below to guarantee zero horizontal overflow) */}
           {/* Bank Verification Modal Trigger Button */}
           <button
             type="button"
             data-testid="bank-verification-header-btn"
             onClick={handleOpenBankModal}
-            className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800/80 text-xs font-semibold transition-all shadow-xs cursor-pointer"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800/80 text-xs font-semibold transition-all shadow-xs cursor-pointer shrink-0"
             title="Launch Interstate Bank Verification & Collateral Report"
           >
             <Landmark className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-            <span>Bank Verification</span>
+            <span className="hidden md:inline">Bank Verification</span>
+            <span className="inline md:hidden">Bank</span>
           </button>
 
-          {/* Officer Dashboard Link */}
-          {currentRole === "officer" && (
-            <Link
-              href="/dashboard"
-              data-testid="officer-dashboard-nav-link"
-              className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/80 text-xs font-semibold transition-all shadow-xs"
-              title="Open Officer Executive Dashboard"
+          {/* DPI Portals & External Modules Dropdown */}
+          <div ref={portalsRef} className="relative shrink-0">
+            <button
+              type="button"
+              data-testid="portals-dropdown-btn"
+              onClick={() => setIsPortalsOpen(!isPortalsOpen)}
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 text-xs font-semibold transition-all shadow-xs cursor-pointer"
+              title="Open National DPI Modules & Portals"
+              aria-expanded={isPortalsOpen}
             >
-              <BarChart3 className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
-              <span>{t("officerDashboard")}</span>
-            </Link>
-          )}
+              <Globe className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+              <span>Portals</span>
+              <ChevronDown className={`h-3 w-3 text-slate-400 transition-transform duration-200 ${isPortalsOpen ? "rotate-180" : ""}`} />
+            </button>
 
-          {/* Officer-Only Onboard New State Admin Wizard Link */}
-          {currentRole === "officer" && (
-            <Link
-              href="/admin/onboard-state"
-              data-testid="onboard-state-nav-link"
-              className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800/80 text-xs font-semibold transition-all shadow-xs"
-              title="Onboard New State Schema Adapter (Admin)"
+            {/* Dropdown Menu Overlay */}
+            <div
+              data-testid="portals-dropdown-menu"
+              className={`absolute right-0 top-full mt-2 w-72 rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-2xl z-[150] p-2 space-y-1 ${
+                isPortalsOpen ? "block animate-in fade-in zoom-in-95 duration-150" : "hidden"
+              }`}
             >
-              <PlusCircle className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
-              <span>Onboard State</span>
-            </Link>
-          )}
+              <div className="px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+                National DPI Modules
+              </div>
 
-          {/* API Explorer Link Button - Hidden in Presentation Mode */}
-          {!currentIsPresentationMode && (
-            <Link
-              href="/api-explorer"
-              className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-zinc-700 hover:border-indigo-300 dark:hover:border-indigo-800 text-xs font-semibold transition-all shadow-xs"
-              title="Open Cadastral REST API Explorer"
-            >
-              <Terminal className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-              <span>{t("apiExplorer")}</span>
-            </Link>
-          )}
+              {/* National Rollout Map */}
+              <Link
+                href="/national-view"
+                data-testid="national-view-nav-link"
+                onClick={() => setIsPortalsOpen(false)}
+                className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-200 transition group"
+              >
+                <div className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/80">
+                  <Globe className="h-4 w-4" />
+                </div>
+                <div>
+                  <span className="text-xs font-semibold text-slate-900 dark:text-white block group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    National Rollout Map
+                  </span>
+                  <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
+                    28 States & 8 UTs Phased Launch
+                  </span>
+                </div>
+              </Link>
 
-          {/* National Phased Rollout View Link Button - Hidden in Presentation Mode */}
-          {!currentIsPresentationMode && (
-            <Link
-              href="/national-view"
-              data-testid="national-view-nav-link"
-              className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 text-slate-700 dark:text-zinc-300 hover:text-emerald-600 dark:hover:text-emerald-400 border border-slate-200 dark:border-zinc-700 hover:border-emerald-300 dark:hover:border-emerald-800 text-xs font-semibold transition-all shadow-xs"
-              title="Inspect India-Wide National Phased Rollout Map"
-            >
-              <Globe className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span>National View</span>
-            </Link>
-          )}
+              {/* National Economic Case */}
+              <Link
+                href="/impact"
+                data-testid="national-impact-nav-link"
+                onClick={() => setIsPortalsOpen(false)}
+                className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-200 transition group"
+              >
+                <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/80">
+                  <TrendingUp className="h-4 w-4" />
+                </div>
+                <div>
+                  <span className="text-xs font-semibold text-slate-900 dark:text-white block group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    National Economic Impact
+                  </span>
+                  <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
+                    20+ Cr parcels • ₹28,500 Cr saved
+                  </span>
+                </div>
+              </Link>
 
-          {/* National Economic Impact Dashboard Link Button - Hidden in Presentation Mode */}
-          {!currentIsPresentationMode && (
-            <Link
-              href="/impact"
-              data-testid="national-impact-nav-link"
-              className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-zinc-700 hover:border-indigo-300 dark:hover:border-indigo-800 text-xs font-semibold transition-all shadow-xs"
-              title="Inspect National Economic Case & DPI Impact Dashboard (20+ Cr Parcels, ₹28,500 Cr Saved)"
-            >
-              <TrendingUp className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-              <span>Impact</span>
-            </Link>
-          )}
+              {/* REST API Explorer */}
+              <Link
+                href="/api-explorer"
+                onClick={() => setIsPortalsOpen(false)}
+                className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-200 transition group"
+              >
+                <div className="p-1.5 rounded-lg bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800/80">
+                  <Terminal className="h-4 w-4" />
+                </div>
+                <div>
+                  <span className="text-xs font-semibold text-slate-900 dark:text-white block group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                    Cadastral REST API Explorer
+                  </span>
+                  <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
+                    Interactive query & GeoJSON schema
+                  </span>
+                </div>
+              </Link>
 
-          {/* AI Land Valuation Simulator Link */}
-          {!currentIsPresentationMode && (
-            <Link
-              href="/valuation-simulator"
-              data-testid="valuation-simulator-nav-link"
-              className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800/80 text-xs font-semibold transition-all shadow-xs"
-              title="5-10 Year AI Land Valuation & Infrastructure Growth Simulator"
-            >
-              <TrendingUp className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
-              <span>Valuation AI</span>
-            </Link>
-          )}
+              {/* Institutional Ecosystem Diagram */}
+              <button
+                type="button"
+                data-testid="ecosystem-view-header-btn"
+                onClick={() => {
+                  setIsPortalsOpen(false);
+                  onOpenEcosystem();
+                }}
+                className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-200 transition text-left group cursor-pointer"
+              >
+                <div className="p-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/80">
+                  <Network className="h-4 w-4" />
+                </div>
+                <div>
+                  <span className="text-xs font-semibold text-slate-900 dark:text-white block group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                    Ecosystem Architecture
+                  </span>
+                  <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
+                    6-department live bilateral sync
+                  </span>
+                </div>
+              </button>
 
-          {/* Institutional Ecosystem View Trigger Button */}
-          <Button
-            variant="secondary"
-            size="sm"
-            data-testid="ecosystem-view-header-btn"
-            onClick={onOpenEcosystem}
-            leftIcon={<Network className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />}
-            title="Inspect 6-Department Institutional Interoperability Architecture"
-            className="hidden 2xl:inline-flex"
-          >
-            <span>{t("ecosystemView") || "Ecosystem"}</span>
-          </Button>
+              {/* Officer Exclusive Links */}
+              {currentRole === "officer" && (
+                <>
+                  <div className="pt-1 mt-1 border-t border-slate-100 dark:border-zinc-800 px-3 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-500">
+                    Officer Administration
+                  </div>
+
+                  <Link
+                    href="/admin/onboard-state"
+                    data-testid="onboard-state-nav-link"
+                    onClick={() => setIsPortalsOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-200 transition group"
+                  >
+                    <div className="p-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/80">
+                      <PlusCircle className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold text-slate-900 dark:text-white block group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                        Onboard New State
+                      </span>
+                      <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
+                        Schema adapter wizard
+                      </span>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/dashboard"
+                    data-testid="officer-dashboard-nav-link"
+                    onClick={() => setIsPortalsOpen(false)}
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-200 transition group"
+                  >
+                    <div className="p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/80">
+                      <BarChart3 className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold text-slate-900 dark:text-white block group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                        Officer Analytics Dashboard
+                      </span>
+                      <span className="text-[10px] text-slate-500 dark:text-zinc-400 block">
+                        Executive dispute & mutation KPIs
+                      </span>
+                    </div>
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
 
           {/* Real-Time Government Activity Notification Bell */}
           <NotificationBell onSelectParcelByUlpin={onSelectParcelByUlpin} />
@@ -359,6 +440,7 @@ export default function Header({
             onClick={toggleTheme}
             title={isDark ? t("lightMode") || "Switch to Light Mode" : t("darkMode") || "Switch to Dark Mode"}
             aria-label={t("toggleTheme") || "Toggle theme"}
+            className="shrink-0"
           >
             {isDark ? (
               <Sun className="h-4 w-4 text-amber-400 animate-in spin-in-90 duration-200" />
@@ -375,7 +457,7 @@ export default function Header({
             onClick={onOpenShortcuts}
             title={t("keyboardShortcuts") || "Keyboard Shortcuts (?)"}
             aria-label={t("keyboardShortcuts") || "Keyboard Shortcuts"}
-            className="hidden lg:inline-flex"
+            className="hidden xl:inline-flex shrink-0"
           >
             <HelpCircle className="h-4 w-4" />
           </Button>
@@ -385,7 +467,7 @@ export default function Header({
             type="button"
             data-testid="presentation-mode-header-btn"
             onClick={handleTogglePresentationMode}
-            className={`p-2 rounded-xl border transition-all cursor-pointer shadow-xs shrink-0 items-center justify-center font-bold text-xs hidden md:inline-flex ${
+            className={`p-2 rounded-xl border transition-all cursor-pointer shadow-xs shrink-0 items-center justify-center font-bold text-xs hidden xl:flex ${
               currentIsPresentationMode
                 ? "bg-amber-500 text-white border-amber-600 shadow-amber-500/25 ring-2 ring-amber-400/40"
                 : "bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:text-amber-600 dark:hover:text-amber-400 border border-slate-200 dark:border-zinc-700 hover:border-amber-300 dark:hover:border-zinc-600"
